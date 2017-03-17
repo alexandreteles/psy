@@ -13,10 +13,10 @@ public class Application {
 
 	public static void main(String[] args) {
 		ToneAnalyzer service = new ToneAnalyzer(ToneAnalyzer.VERSION_DATE_2016_05_19);
-		service.setUsernameAndPassword("b023d4b2-696e-4fcb-84d1-0252abdc8db1", "UGuo3ZsalbeU");
+		service.setUsernameAndPassword("user", "password");
 		
 		LanguageTranslator translator = new LanguageTranslator();
-		translator.setUsernameAndPassword("cb6de7fc-dcba-4088-9030-8c17463163f7", "Rej1QFPN3s2D");
+		translator.setUsernameAndPassword("user", "password");
 		
 		
 		String text = "O poeta é um fingidor"
