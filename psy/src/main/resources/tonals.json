@@ -1,0 +1,18 @@
+{
+  "tonals": {
+    "emotion": [
+      "anger",
+      "disgust",
+      "fear",
+      "sadness"
+    ],
+    "language": [],
+    "social": [
+      "openness",
+      "conscientiousness",
+      "extraversion",
+      "agreeableness",
+      "emotional_range"
+    ]
+  }
+}
