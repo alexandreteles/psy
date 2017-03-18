@@ -8,8 +8,11 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.ibm.watson.developer_cloud.language_translator.v2.model.Language;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.Profile;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
+import com.solutishackaton2017.psy.json.ObjectWrapper;
 import com.solutishackaton2017.psy.service.LanguageTranslatorService;
+import com.solutishackaton2017.psy.service.PersonalityInsigthsService;
 import com.solutishackaton2017.psy.service.ToneAnalyzerService;
 import com.solutishackaton2017.psy.transformer.JsonTransformer;
 import com.solutishackaton2017.psy.twitter.TwitterGet;
@@ -47,7 +50,13 @@ public class Application {
 			
 			System.out.println(analysis);
 			
-			return analysis;
+			PersonalityInsigthsService personalityService = PersonalityInsigthsService.newInstance();
+			
+			Profile profile = personalityService.profile(twitterGet.convertTweetsToPIContentItems(statuses));
+			
+			System.out.println(profile);
+			
+			return new ObjectWrapper(analysis, profile);
 		}, new JsonTransformer()) ;
 		
 		Spark.get("/dashboard", (request, response)-> {
