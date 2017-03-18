@@ -19,7 +19,7 @@ import twitter4j.Status;
 
 public class Application {
 
-	private static final String basePath = "/Users/cbarauna/git/solutishackathon2017/solutishackathon2017/psy/src/main/resources/public/";
+	private static final String basePath = "C:\\Desenvolvimento\\IDE\\jee-neon\\workspace\\solutishackathon2017\\psy\\src\\main\\resources\\public\\";
 	
 	public static void main(String[] args) {
 		Spark.staticFiles.location("/public");
@@ -45,9 +45,9 @@ public class Application {
 			
 			ToneAnalysis analysis = toneAnalyserService.analyse(text);
 			
+			System.out.println(analysis);
+			
 			return analysis;
-			
-			
 		}, new JsonTransformer()) ;
 		
 		Spark.get("/dashboard", (request, response)-> {
