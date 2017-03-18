@@ -125,4 +125,13 @@
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 <script src="assets/js/demo.js"></script>
 
+<script type="text/javascript">
+	$(document).on('submit', 'form', function() {
+		if (!$('input[name="twitter"]').val()) {
+			alert('Informe o nick do twitter');
+			return false;
+		}
+	});
+</script>
+
 </html>

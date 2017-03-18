@@ -27,6 +27,38 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
 
+	<style type="text/css">
+		/* Start by setting display:none to make this hidden.
+		   Then we position it in relation to the viewport window
+		   with position:fixed. Width, height, top and left speak
+		   for themselves. Background we set to 80% white with
+		   our animation centered, and no-repeating */
+		.modal {
+		    display:    none;
+		    position:   fixed;
+		    z-index:    1000;
+		    top:        0;
+		    left:       0;
+		    height:     100%;
+		    width:      100%;
+		    background: rgba( 255, 255, 255, .8 ) 
+		                url('http://i.stack.imgur.com/FhHRx.gif') 
+		                50% 50% 
+		                no-repeat;
+		}
+		
+		/* When the body has the loading class, we turn
+		   the scrollbar off with overflow:hidden */
+		body.loading {
+		    overflow: hidden;   
+		}
+		
+		/* Anytime the body has the loading class, our
+		   modal element will be visible */
+		body.loading .modal {
+		    display: block;
+		}
+	</style>
 </head>
 <body>
 
@@ -71,11 +103,10 @@
                                     <div class="legend">
                                         <i class=" text-info">
                                  
-                                      <label id="analises" class="title" style="width:225px;height: 20px;"></label>
+                                      <label id="analises" class="title" style="height: 20px;"></label>
                                         </i>
                                     </div>
                                     <hr>
-                    
                                 
                             </div>
                         </div>
@@ -96,7 +127,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Análise de valores baseado</h4>
+                                <h4 class="title">Análise de valores</h4>
                             </div>
                             <div class="content">
                                 <div id="valoresChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
@@ -120,15 +151,6 @@
 
         <footer class="footer">
             <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
                 <p class="copyright pull-right">
                     &copy; <script>document.write(new Date().getFullYear())</script> Team Corujão
                 </p>
@@ -137,6 +159,8 @@
 
     </div>
 </div>
+
+<div class="modal"><!-- Place at bottom of page --></div>
 
 </body>
 
@@ -163,6 +187,12 @@
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
 	<script type="text/javascript">
+		$body = $("body");
+	
+		$(document).on({
+		    ajaxStart: function() { $body.addClass("loading");    },
+		     ajaxStop: function() { $body.removeClass("loading"); }    
+		});
 		
 		$(document).ready(function() {
 			var twitter = window.location.search.substring(1).split('&')[0].split('=')[1];
@@ -230,20 +260,18 @@
 				var tristeza = tones[4].score;
 				var alegria = tones[3].score;
 				var negativa = (raiva + desgosto+ medo + tristeza)/4;
+				
 				console.log("Raiva e Desgosto "+ (raiva + desgosto+ medo + tristeza) );
 				console.log("Alegria "+ alegria);
 				console.log("Negativa "+ negativa); 
 
-						if (negativa > alegria){
-							
-							document.getElementById('analises').innerHTML = "Tendência Depressiva";
-							}else if (negativa < alegria){
-								document.getElementById('analises').innerHTML = "Tendência Não Depressiva";
-								} else{
-									document.getElementById('analises').innerHTML = "Necessita de Avaliacao com Especialista";
-									
-									}
-				
+				if (negativa > alegria) {
+					document.getElementById('analises').innerHTML = "Com tendência a transtornos afetivos";
+				} else if (negativa < alegria) {
+					document.getElementById('analises').innerHTML = "Sem tendência a transtornos afetivos";
+				} else {
+					document.getElementById('analises').innerHTML = "Necessita de avaliacao com especialista";
+				}
 			  	
 			  	<!-- Bar chart -->
 			  	
