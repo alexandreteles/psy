@@ -68,7 +68,7 @@ public class NaturalLanguageUnderstandingExample {
 		
 		TwitterGet twitter = new TwitterGet();
 		
-		String text = twitter.pegarLinhaDoTempo("uniFOA").stream()
+		String text = twitter.pegarLinhaDoTempo("garotadepressi9").stream()
 				.filter(e -> !e.isRetweet())
 				.map(e -> e.getText().replaceAll("[^(\\x20-\\x7F)]*", ""))
 				.collect(Collectors.joining(" "));

@@ -23,7 +23,7 @@ public class TwitterGet {
 		List<Status> statuses;
 		int pageno = 1;
 		try {
-			Paging page = new Paging(pageno, 100);
+			Paging page = new Paging(pageno, 2000);
 			statuses = twitter.getUserTimeline(twitterID, page);
 		} catch (TwitterException e) {
 			e.printStackTrace();

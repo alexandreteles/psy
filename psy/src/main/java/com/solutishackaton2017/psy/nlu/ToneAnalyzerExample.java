@@ -1,33 +1,39 @@
 package com.solutishackaton2017.psy.nlu;
 
+import com.ibm.watson.developer_cloud.language_translator.v2.LanguageTranslator;
+import com.ibm.watson.developer_cloud.language_translator.v2.model.Language;
+import com.ibm.watson.developer_cloud.language_translator.v2.model.TranslationResult;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
-import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.Tone;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
-import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
+import com.solutishackaton2017.psy.transformer.JsonTransformer;
+
+import spark.Spark;
 
 public class ToneAnalyzerExample {
 
 	public static void main(String[] args) {
 		ToneAnalyzer service = new ToneAnalyzer(ToneAnalyzer.VERSION_DATE_2016_05_19);
-	    service.setUsernameAndPassword("c3a3a2df-e4c6-4a29-811f-f0c31b85a783", "yZP171RzpRZa");
+		service.setUsernameAndPassword("b023d4b2-696e-4fcb-84d1-0252abdc8db1", "UGuo3ZsalbeU");
 
-	    String text = "I know the times are difficult! Our sales have been "
-	        + "disappointing for the past three quarters for our data analytics "
-	        + "product suite. We have a competitive data analytics product "
-	        + "suite in the industry. But we need to do our job selling it! "
-	        + "We need to acknowledge and fix our sales challenges. "
-	        + "We can’t blame the economy for our lack of execution! " 
-	        + "We are missing critical sales opportunities. "
-	        + "Our product is in no way inferior to the competitor products. "
-	        + "Our clients are hungry for analytical tools to improve their "
-	        + "business outcomes. Economy has nothing to do with it.";
+		LanguageTranslator translator = new LanguageTranslator();
+		translator.setUsernameAndPassword("cb6de7fc-dcba-4088-9030-8c17463163f7", "Rej1QFPN3s2D");
 
-	    ToneOptions options = new ToneOptions.Builder()
-	    		.addTone(Tone.EMOTION)
-	    		.build();
-	    
-	    // Call the service and get the tone
-	    ToneAnalysis tone = service.getTone(text, options).execute();
-	    System.out.println(tone);
+		String text = "O poeta é um fingidor" + "Finge tão completamente" + "Que chega a fingir que é dor"
+				+ "A dor que deveras sente."
+
+				+ "E os que lêem o que escreve," + "Na dor lida sentem bem," + "Não as duas que ele teve,"
+				+ "Mas só a que eles não têm"
+
+				+ "E assim nas calhas da roda" + "Gira, a entreter a razão," + "Esse comboio de corda"
+				+ "Que se chama o coração.";
+
+		TranslationResult result = translator.translate(text, Language.PORTUGUESE, Language.ENGLISH).execute();
+
+		ToneAnalysis tone = service.getTone(result.getFirstTranslation(), null).execute();
+		System.out.println(tone);
+
+		Spark.get("/", (request, response) -> {
+			return tone;
+		}, new JsonTransformer());
 	}
 }
