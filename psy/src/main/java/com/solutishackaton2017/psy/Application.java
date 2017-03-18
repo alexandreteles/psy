@@ -19,7 +19,7 @@ import twitter4j.Status;
 
 public class Application {
 
-	private static final String basePath = "C:\\Desenvolvimento\\IDE\\jee-neon\\workspace\\solutishackathon2017\\psy\\src\\main\\resources\\public\\";
+	private static final String basePath = "/Users/cbarauna/git/solutishackathon2017/solutishackathon2017/psy/src/main/resources/public/";
 	
 	public static void main(String[] args) {
 		Spark.staticFiles.location("/public");
@@ -28,12 +28,12 @@ public class Application {
 		
 		Spark.get("/analisar", (request, response) -> renderContent("analisar.html"));
 		
-		Spark.post("/efetuarAnalise", (request, response) -> {
-			String twitterHandle = request.queryParams("twitterHandle");
+		Spark.post("/efetuarAnalise", (request, response) ->  {
+			String twitterHandle = request.body();
 			
 			TwitterGet twitterGet = TwitterGet.newInstance();
 			
-			List<Status> statuses = twitterGet.pegarLinhaDoTempo(twitterHandle);
+			List<Status> statuses = twitterGet.pegarLinhaDoTempo(twitterHandle.split("=")[1]);
 			
 			LanguageTranslatorService translatorService = LanguageTranslatorService.newInstance();
 			
@@ -46,7 +46,13 @@ public class Application {
 			ToneAnalysis analysis = toneAnalyserService.analyse(text);
 			
 			return analysis;
-		}, new JsonTransformer());
+			
+			
+		}, new JsonTransformer()) ;
+		
+		Spark.get("/dashboard", (request, response)-> {
+			return renderContent("dashboard.html");
+		});
 	}
 	
 	private static String renderContent(String htmlFile) {
