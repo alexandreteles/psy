@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.solutishackaton2017.psy.transformer.JsonTransformer;
+
 import spark.Spark;
 
 public class Application {
@@ -17,12 +19,17 @@ public class Application {
 		
 		Spark.get("/", (request, response) -> renderContent("index.html"));
 		
-		Spark.get("/login", (request, response) -> renderContent("login.html"));
+		Spark.get("/analisar", (request, response) -> renderContent("analisar.html"));
+		
+		Spark.post("/efetuarAnalise", (request, response) -> {
+			String twitterHandle = request.queryParams("twitterHandle");
+			
+			return twitterHandle;
+		}, new JsonTransformer());
 	}
 	
 	private static String renderContent(String htmlFile) {
 	    try {
-
 	        Path path = Paths.get(basePath + htmlFile);
 	        return new String(Files.readAllBytes(path), Charset.defaultCharset());
 	    } catch (IOException e) {
