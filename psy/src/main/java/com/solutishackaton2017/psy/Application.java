@@ -8,8 +8,15 @@ public class Application {
 		Spark.staticFiles.location("/public");
 		
 		Spark.get("/", (request, response) -> {
-			response.type("text/html");
+	        response.type("text/html");
+	        
 			return "index.html";
+		});
+		
+		Spark.get("/login", (request, response) -> {
+	        response.type("text/html");
+	        
+			return "login.html";
 		});
 	}
 }
