@@ -66,7 +66,7 @@ public class NaturalLanguageUnderstandingExample {
 				.sentiment(sentimentOptions)
 				.build();
 		
-		TwitterGet twitter = new TwitterGet();
+		TwitterGet twitter = TwitterGet.newInstance();
 		
 		String text = twitter.pegarLinhaDoTempo("garotadepressi9").stream()
 				.filter(e -> !e.isRetweet())

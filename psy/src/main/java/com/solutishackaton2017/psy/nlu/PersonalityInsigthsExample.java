@@ -23,7 +23,7 @@ public class PersonalityInsigthsExample {
 		
 		service.setUsernameAndPassword("a782263b-6c2f-4263-9120-07955a3b704c", "rDgGacGkiLnl");
 		
-		TwitterGet twitter = new TwitterGet();
+		TwitterGet twitter = TwitterGet.newInstance();
 		
 		Profile profile = service
 				.getProfile(convertTweetsToPIContentItems(twitter.pegarLinhaDoTempo("garotadepressi9")))

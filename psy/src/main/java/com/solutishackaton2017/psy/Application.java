@@ -5,10 +5,15 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
+import com.ibm.watson.developer_cloud.language_translator.v2.model.Language;
+import com.solutishackaton2017.psy.service.LanguageTranslatorService;
 import com.solutishackaton2017.psy.transformer.JsonTransformer;
+import com.solutishackaton2017.psy.twitter.TwitterGet;
 
 import spark.Spark;
+import twitter4j.Status;
 
 public class Application {
 
@@ -23,6 +28,17 @@ public class Application {
 		
 		Spark.post("/efetuarAnalise", (request, response) -> {
 			String twitterHandle = request.queryParams("twitterHandle");
+			
+			TwitterGet twitterGet = TwitterGet.newInstance();
+			
+			List<Status> statuses = twitterGet.pegarLinhaDoTempo(twitterHandle);
+			
+			LanguageTranslatorService translatorService = LanguageTranslatorService.newInstance();
+			
+			// TODO
+			translatorService.translate("", Language.PORTUGUESE, Language.ENGLISH);
+			
+			String text = twitterGet.converTweetsToText(statuses);
 			
 			return twitterHandle;
 		}, new JsonTransformer());
