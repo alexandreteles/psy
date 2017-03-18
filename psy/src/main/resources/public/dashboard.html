@@ -37,6 +37,7 @@
             <div class="logo">
                 <img src="assets/img/logo.png" style="width:100%; height:100%;" />
             </div>
+            
     	</div>
     </div>
 
@@ -60,7 +61,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Análise de tons de emoção nas Redes Sociais</h4>
+                                <h4 class="title">Análise de tons de emoção</h4>
                             </div>
                             <div class="content">
                                 <div id="myChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
@@ -68,16 +69,38 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Análise de percepção de personalidade baseado nas Redes Sociais</h4>
+                                <h4 class="title">Análise de percepção de personalidade</h4>
                             </div>
                             <div class="content">
                                 <div id="pieChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Análise de valores baseado</h4>
+                            </div>
+                            <div class="content">
+                                <div id="valoresChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Análise de necessidades</h4>
+                            </div>
+                            <div class="content">
+                                <div id="needChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
                                 </div>
                             </div>
                         </div>
@@ -175,9 +198,7 @@
 				            y: tones[0].score
 				        }, {
 				        	name: 'Desgosto',
-				            y: tones[1].score,
-				            sliced: true,
-				            selected: true
+				            y: tones[1].score
 				        }, {
 				        	name: 'Medo',
 				            y: tones[2].score
@@ -204,10 +225,100 @@
 			  	    xAxis: {
 			  	        categories: ['Inflamado', 'Propenso a preocupação', 'Melancolia', 'Imoderação', 'Auto-consciencia', 'Sucetível ao estresse']
 			  	    },
+				  	  yAxis: {
+				          min: 0,
+				          title: {
+				              text: 'Valores %'
+				          }
+				      },
 			  	    series: [{
 			  	        type: 'column',
 			  	        colorByPoint: true,
-			  	        data: [personality[0].percentile, personality[1].percentile, personality[2].percentile, personality[3].percentile, personality[4].percentile, personality[5].percentile],
+			  	        data: [
+			  	        	personality[0].percentile * 100, 
+	  	        			personality[1].percentile * 100, 
+	  	        			personality[2].percentile * 100, 
+			  	        	personality[3].percentile * 100, 
+			  	        	personality[4].percentile * 100, 
+			  	        	personality[5].percentile * 100
+			  	        ],
+			  	        showInLegend: false
+			  	    }]
+			  	});
+			  	
+			  	<!-- Values -->
+			  	
+			  	Highcharts.chart('valoresChart', {
+			  	    title: {
+			  	        text: 'Percepção de valores'
+			  	    },
+			  	    xAxis: {
+			  	        categories: ['Conservação', 'Abertura a mudança', 'Hedonismo', 'Auto-aperfeiçoamento', 'Auto-transcendência']
+			  	    },
+				  	  yAxis: {
+				          min: 0,
+				          title: {
+				              text: 'Valores %'
+				          }
+				      },
+			  	    series: [{
+			  	        type: 'column',
+			  	        colorByPoint: true,
+			  	        data: [
+			  	        	result.objects[1].values[0].percentile * 100, 
+			  	        	result.objects[1].values[1].percentile * 100, 
+			  	        	result.objects[1].values[2].percentile * 100, 
+			  	        	result.objects[1].values[3].percentile * 100, 
+			  	        	result.objects[1].values[4].percentile * 100
+			  	        ],
+			  	        showInLegend: false
+			  	    }]
+			  	});
+				
+				<!-- Needs -->
+			  	
+				Highcharts.chart('needChart', {
+			  	    title: {
+			  	        text: 'Percepção de necessidades'
+			  	    },
+			  	    xAxis: {
+			  	        categories: [
+			  	        	'Desafio', 
+			  	        	'Proximidade', 
+			  	        	'Curiosidade', 
+			  	        	'Excitação', 
+			  	        	'Harmonia', 
+			  	        	'Ideal',
+			  	        	'Liberdade',
+			  	        	'Amor',
+			  	        	'Praticidade',
+			  	        	'Auto-expressão',
+			  	        	'Estabilidade',
+			  	        	'Estrutura'
+			  	       	]
+			  	    },
+				  	  yAxis: {
+				          min: 0,
+				          title: {
+				              text: 'Valores %'
+				          }
+				      },
+			  	    series: [{
+			  	        type: 'column',
+			  	        colorByPoint: true,
+			  	        data: [
+			  	        	result.objects[1].needs[0].percentile * 100, 
+			  	        	result.objects[1].needs[1].percentile * 100, 
+			  	        	result.objects[1].needs[2].percentile * 100, 
+			  	        	result.objects[1].needs[3].percentile * 100, 
+			  	        	result.objects[1].needs[4].percentile * 100, 
+			  	        	result.objects[1].needs[5].percentile * 100, 
+			  	        	result.objects[1].needs[6].percentile * 100, 
+			  	        	result.objects[1].needs[7].percentile * 100, 
+			  	        	result.objects[1].needs[8].percentile * 100, 
+			  	        	result.objects[1].needs[9].percentile * 100, 
+			  	        	result.objects[1].needs[10].percentile * 100
+			  	        ],
 			  	        showInLegend: false
 			  	    }]
 			  	});
