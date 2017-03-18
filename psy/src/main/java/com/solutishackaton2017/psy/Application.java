@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.ibm.watson.developer_cloud.language_translator.v2.model.Language;
+import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
 import com.solutishackaton2017.psy.service.LanguageTranslatorService;
+import com.solutishackaton2017.psy.service.ToneAnalyzerService;
 import com.solutishackaton2017.psy.transformer.JsonTransformer;
 import com.solutishackaton2017.psy.twitter.TwitterGet;
 
@@ -35,12 +37,15 @@ public class Application {
 			
 			LanguageTranslatorService translatorService = LanguageTranslatorService.newInstance();
 			
-			// TODO
-			translatorService.translate("", Language.PORTUGUESE, Language.ENGLISH);
+			String text = translatorService
+					.translate(twitterGet.converTweetsToText(statuses), Language.PORTUGUESE, Language.ENGLISH)
+					.getFirstTranslation();
 			
-			String text = twitterGet.converTweetsToText(statuses);
+			ToneAnalyzerService toneAnalyserService = ToneAnalyzerService.newInstance();
 			
-			return twitterHandle;
+			ToneAnalysis analysis = toneAnalyserService.analyse(text);
+			
+			return analysis;
 		}, new JsonTransformer());
 	}
 	
