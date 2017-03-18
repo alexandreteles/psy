@@ -66,6 +66,17 @@
                             <div class="content">
                                 <div id="myChart" class="ct-chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
                                 </div>
+                                
+                                <div class="footer">
+                                    <div class="legend">
+                                        <i class=" text-info">
+                                 
+                                      <label id="analises" class="title" style="width:225px;height: 20px;"></label>
+                                        </i>
+                                    </div>
+                                    <hr>
+                    
+                                
                             </div>
                         </div>
                     </div>
@@ -106,6 +117,7 @@
                         </div>
                     </div>
                 </div>
+
         <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
@@ -211,6 +223,27 @@
 				        }]
 				    }]
 				});
+
+				var raiva = tones[0].score;
+				var desgosto = tones[1].score;
+				var medo = tones[2].score;
+				var tristeza = tones[4].score;
+				var alegria = tones[3].score;
+				var negativa = (raiva + desgosto+ medo + tristeza)/4;
+				console.log("Raiva e Desgosto "+ (raiva + desgosto+ medo + tristeza) );
+				console.log("Alegria "+ alegria);
+				console.log("Negativa "+ negativa); 
+
+						if (negativa > alegria){
+							
+							document.getElementById('analises').innerHTML = "Tendência Depressiva";
+							}else if (negativa < alegria){
+								document.getElementById('analises').innerHTML = "Tendência Não Depressiva";
+								} else{
+									document.getElementById('analises').innerHTML = "Necessita de Avaliacao com Especialista";
+									
+									}
+				
 			  	
 			  	<!-- Bar chart -->
 			  	
